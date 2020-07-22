@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel = "stylesheet" href = "styles.css">
+  <script src="scripts.js"></script>
+  <script src="archive.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree&display=swap" rel="stylesheet">
+  <title>DCI Show Archive</title>
+  <style>
+    span, p {color: red;}
+  </style>
+</head>
+<body onload="generateDefaultArchive();">
+  <header>
+    <h1>DCI Show Archive</h1>
+  </header>
+  <nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="showarchive.html" class="active">Show Archive</a></li>
+    <li><a href="scorearchive.html">Finals Score Archive</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  </nav>
+	
+  <main>
+    <h2>Show Archive</h2>
+
+    <form id="filter">
+      <h5>Apply Search Filters</h5>
+      <label for="corps">Corps:</label>
+        <select id="corps" name="corps"></select>
+      <label for="year">Year:</label>
+        <select id="year" name="year"></select>
+      <label for="showTitle">Show Title:</label>
+      <input type="text" id="showTitle" name="showTitle" placeholder="Title">
+      <label for="placement">Placement:</label>
+        <select id="placement" name="placement"></select>
+      <input type="button" value="Search" onclick="submitSearch();">
+    </form>
+    <p style="margin: 20px;">* Signifies that page is not available yet</p>
+    <div id="showContainer">
+    </div>
+  </main>
+</body>
+<script>
+    var txt = "<option value=\"\" style=\"color:gray\" selected>None</option>";
+    for(var i of showArchive)
+      txt += "<option value=\"" + i.corpsName + "\">" + i.corpsName + "</option>";
+    document.getElementById("corps").innerHTML = txt;
+    txt = "<option value=\"\" style=\"color:gray\" selected>None</option>";
+    for(var y = 2019; y > 2015; y--)
+      txt += "<option value=\"" + y + "\">" + y + "</option>";
+    document.getElementById("year").innerHTML = txt;
+    txt = "<option value=\"\" style=\"color:gray\" selected>None</option>";
+    for(var p = 1; p < 13; p++)
+      txt += "<option value=\"" + p + "\">" + p + "</option>";
+    document.getElementById("placement").innerHTML = txt;
+</script>
+</html>

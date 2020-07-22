@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel = "stylesheet" href = "styles.css">
+  <script src="scripts.js"></script>
+  <script src="archive.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree&display=swap" rel="stylesheet">
+  <title>DCI Show Archive</title>
+ 
+  <style>
+    #yearSelect{
+      background-color: #404040;
+      color: white;
+      padding: 10px;
+      width: 300px;
+      display: inline-block;
+      box-sizing: border-box;
+      border-radius:5px;
+      float: right;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    #yearSelect h5 {
+      font-size: 1.02em;
+      display: inline;
+    }
+    .dropdown{
+      width: 100px;
+      height: 30px;
+    }
+    #yearSelect .dropdown-content button{padding: 7px;}
+    #yearSelect #submit{margin-left: 10px;}
+    table {
+      width: 90%;
+      margin: auto;
+    }
+    table, th, td {border-collapse: collapse;}
+  </style>
+</head>
+
+<body onload="loadResults();">
+  <header>
+    <h1>DCI Show Archive</h1>
+  </header>
+  <nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="showarchive.html">Show Archive</a></li>
+    <li><a href="scorearchive.html" class="active">Finals Score Archive</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  </nav>
+	
+  <main>
+    <h2>Score Archive</h2>
+    <div style="margin: 40px;">
+    <h4 style="display: inline;">DCI Finals <span id="yrSpan"></span> Recap</h4>
+    <div id="yearSelect">
+    <h5>Select Year:</h5>
+    <div class="dropdown">
+      <button onclick="showDropdown(0)" class="dropbtn">Year</button>
+      <div class="dropdown-content" id="yearList">
+      </div>
+    </div>
+    <button id="submit" onclick="loadResults();">Submit</button>
+    </div>
+    </div>
+    <table id="scoreTable">
+    </table>
+    <div id="awardList">
+    </div>
+  </main>
+</body>
+
+<script>
+  var txt = "";
+  for(var y = 2019; y > 2015; y-- ){
+    txt += "<button onclick=\'setYear(" + y + ");\'>" + y + "</button>";}
+  document.getElementById("yearList").innerHTML = txt;
+
+  var year = 2019;
+  function setYear(y) {
+    year = y;
+    document.getElementsByClassName("dropbtn")[0].innerHTML = y;
+  }
+
+  function loadResults(){
+    document.getElementById("yrSpan").innerHTML = year;
+    document.getElementById("scoreTable").innerHTML = "";
+    var tRow = document.createElement("tr");
+    var tH, thHtml;
+    for(var i = 0; i < 4; i++){
+      tH = document.createElement("th");
+      switch(i){
+        case 0: 
+          thHtml = document.createTextNode("Place");
+          break;
+        case 1: 
+          thHtml = document.createTextNode("Corps");
+          break;
+        case 2: 
+          thHtml = document.createTextNode("Show Title");
+          break;
+        case 3: 
+          thHtml = document.createTextNode("Score");
+          break;
+      }
+      tH.appendChild(thHtml);
+      tRow.appendChild(tH);
+    }
+    document.getElementById("scoreTable").appendChild(tRow);
+    var arr = getShowsByYear(year);
+    arr.sort(function(a, b){return a.placement - b.placement});
+    var tD, tdHtml;
+    for(var i of arr){
+      tRow = document.createElement("tr");
+      for(var z = 0; z < 4; z++){
+        tD = document.createElement("td");
+        switch(z){
+        case 0: 
+          tdHtml = document.createTextNode(i.placement);
+          break;
+        case 1: 
+          tdHtml = document.createTextNode(i.corps);
+          break;
+        case 2: 
+          tdHtml = document.createTextNode("\"" + i.showTitle + "\"");
+          break;
+        case 3: 
+          tdHtml = document.createTextNode(i.score.toFixed(3));
+          break;
+        }
+        tD.appendChild(tdHtml);
+        tRow.appendChild(tD);
+      } 
+      document.getElementById("scoreTable").appendChild(tRow);
+    }
+    document.getElementById("awardList").innerHTML = "<h5>Donald Angelica Best General Effect Award</h5>-<p>" + awardWinners[2019 - year][0] + 
+      "</p><br><h5>Fred Sanford Best Percussion Performance Award</h5>-<p>" + awardWinners[2019 - year][1] + 
+      "</p><br><h5>John Brazale Best Visual Performance Award</h5>-<p>" + awardWinners[2019 - year][2] + 
+      "</p><br><h5>George Zingali Best Color Guard Award</h5>-<p>" + awardWinners[2019 - year][3] + 
+      "</p><br><h5>Jim Ott Best Brass Performance Award</h5>-<p>" + awardWinners[2019 - year][4] + "</p>";
+  }
+</script>
+</html>

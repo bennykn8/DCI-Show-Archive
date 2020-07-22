@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel = "stylesheet" href = "styles.css">
+  <script src="scripts.js"></script>
+  <script src="archive.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree&display=swap" rel="stylesheet">
+  <title>DCI Show Archive</title>
+  <style>
+    .dropdown {
+      margin: 20px;
+      width: 25%;
+      height: 40px;
+    }
+    .dropbtn {
+      background-color: #a6a6a6;
+      color: white;
+      font-size: 16px;
+      border: none;
+    }
+    .dropbtn:hover, .dropbtn:focus {background-color: black;}
+    .dropdown-content {background-color: #f1f1f1;}
+    .dropdown-content button {padding: 12px 16px;}
+    #submit {
+      width: 73px;
+      height: 45px;
+      margin-left: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>DCI Show Archive</h1>
+  </header>
+  <nav>
+  <ul>
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="showarchive.html">Show Archive</a></li>
+    <li><a href="scorearchive.html">Finals Score Archive</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  </nav>
+	
+  <main>
+    <h2>DCI Show Archive</h2>
+    <h3>Find details on drum corps shows across the years!</h3>
+    
+    <div id="showSearch">
+    <h4 style="margin: 0 0 0 0; padding: 0;">Quick Search</h4>
+    <h6 style="">Fill in both fields to go directly to a show's page</h6>
+      <h5>Select Corps:<span style="color:red;"> *</span></h5>
+    <div class="dropdown">
+      <button onclick="showDropdown(0)" class="dropbtn">Corps</button>
+      <div class="dropdown-content" id="corpsList">
+      </div>
+    </div>
+       <h5>Select Year:<span style="color:red;"> *</span></h5>
+    <div class="dropdown">
+      <button onclick="showDropdown(1)" class="dropbtn">Year</button>
+      <div class="dropdown-content" id="yearList">
+      </div>
+    </div>
+    <button id="submit" onclick="sendToPage();">Submit</button>
+    </div>
+
+    <div id="linkContainer">
+      <div class="linkBox">   
+        <a href="showarchive.html">Show Archive</a>
+        <h5>Library of all show pages on the site<br>Apply filters to search for shows</h5>
+      </div>
+      <div class="linkBox" style="right: 0;">
+        <a href="scorearchive.html">Score Archive</a>
+        <h5>Search for DCI Finals score recaps and caption awards by the year</h5>
+      </div>
+    </div>
+  </main>
+</body>
+
+<script>
+    var txt = "";
+    for(var i of showArchive)
+      txt += "<button onclick=\'setCorps(\"" + i.corpsName + "\");\'>" + i.corpsName + "</button>";
+    document.getElementById("corpsList").innerHTML = txt;
+    txt = "";
+    for(var y = 2019; y > 2015; y-- )
+      txt += "<button onclick=\'setYear(" + y + ");\'>" + y + "</button>";
+    document.getElementById("yearList").innerHTML = txt;
+
+  var corps;
+  var year;
+  function setCorps(c) {
+    corps = c; 
+    document.getElementsByClassName("dropbtn")[0].innerHTML = c;
+  }
+  function setYear(y) {
+    year = y;
+    document.getElementsByClassName("dropbtn")[1].innerHTML = y;
+  }
+  function sendToPage() {
+    if(corps == undefined || year == undefined)
+      return alert("Please fill in both fields"); 
+    else {
+      for(var i of showArchive) {
+        if(i.corpsName == corps) {
+          for(var z of i.showArray){ 
+            if(z.year == year)
+              return window.location.assign(z.link);
+          }
+        }
+      }
+    }
+    window.location.assign("pagenotfound.html");
+  }
+</script>
+</html>
