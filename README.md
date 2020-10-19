@@ -10,3 +10,4 @@
 
 ### About the code:
 This website was manually coded in HTML, CSS, and Javascript without frameworks or other web design tools.
+Some concepts included in the Javascript code are objects, recursion, event listeners, and accessing/ modifying DOM nodes.
